@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Writer.Api", "Writer.Api\Wr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotApiGateway", "OcelotApiGateway\OcelotApiGateway.csproj", "{2E64BCC8-BD31-4567-B665-FD7DE06D8A4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Api", "Auth.Api\Auth.Api.csproj", "{DC7FBB96-134A-4DA4-A680-09ADCCC74209}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JwtTokenAuthentication", "JwtTokenAuthentication\JwtTokenAuthentication.csproj", "{5065BA4F-C3C0-4C05-B7B8-D14F8832821D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{2E64BCC8-BD31-4567-B665-FD7DE06D8A4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E64BCC8-BD31-4567-B665-FD7DE06D8A4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E64BCC8-BD31-4567-B665-FD7DE06D8A4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC7FBB96-134A-4DA4-A680-09ADCCC74209}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC7FBB96-134A-4DA4-A680-09ADCCC74209}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC7FBB96-134A-4DA4-A680-09ADCCC74209}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC7FBB96-134A-4DA4-A680-09ADCCC74209}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5065BA4F-C3C0-4C05-B7B8-D14F8832821D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5065BA4F-C3C0-4C05-B7B8-D14F8832821D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5065BA4F-C3C0-4C05-B7B8-D14F8832821D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5065BA4F-C3C0-4C05-B7B8-D14F8832821D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

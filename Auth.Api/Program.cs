@@ -1,7 +1,5 @@
-using Ocelot.DependencyInjection;
-using Ocelot.Middleware;
+using Auth.Api.Services;
 using Serilog;
-using JwtTokenAuthentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,9 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
-builder.Services.AddOcelot(builder.Configuration);
-builder.Services.AddJwtAuthentication();
+builder.Services.AddSingleton<IJwtTokenService, JwtTokenService>();
 
 var app = builder.Build();
 
@@ -27,14 +23,10 @@ if (app.Environment.IsDevelopment())
 }
 app.UseDeveloperExceptionPage();
 app.UseSerilogRequestLogging();
-
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-await app.UseOcelot();
 
 app.Run();

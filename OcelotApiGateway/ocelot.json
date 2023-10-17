@@ -4,6 +4,18 @@
   },
   "Routes": [
     {
+      "UpstreamPathTemplate": "/gateway/Auth",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/api/auth",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7178
+        }
+      ]
+    },
+    {
       "UpstreamPathTemplate": "/gateway/writers",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/writers",
@@ -53,7 +65,7 @@
     },
     {
       "UpstreamPathTemplate": "/gateway/articles/{id}",
-      "UpstreamHttpMethod": [ "Get", "Delete" ],
+      "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/articles/{id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -62,6 +74,21 @@
           "Port": 7157
         }
       ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/articles/{id}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/articles/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7157
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
     }
   ]
 }
