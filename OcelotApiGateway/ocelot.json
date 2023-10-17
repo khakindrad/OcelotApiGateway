@@ -25,7 +25,11 @@
           "Host": "localhost",
           "Port": 7181
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "writers.read" ]
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/writers/{id}",
@@ -61,7 +65,11 @@
           "Host": "localhost",
           "Port": 7157
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "articles.read" ]
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/articles/{id}",
