@@ -1,7 +1,8 @@
+using JwtTokenAuthentication;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using OcelotApiGateway.Extensions;
 using Serilog;
-using JwtTokenAuthentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
 builder.Services.AddOcelot(builder.Configuration);
+builder.Services.DecorateClaimAuthoriser();
+
 builder.Services.AddJwtAuthentication();
 
 var app = builder.Build();

@@ -28,7 +28,7 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "writers.read" ]
+        "AllowedScopes": [ "writers.read", "fullaccess" ]
       }
     },
     {
@@ -68,7 +68,7 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "articles.read" ]
+        "AllowedScopes": [ "articles.read", "fullaccess" ]
       }
     },
     {
@@ -95,7 +95,11 @@
         }
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "fullaccess" ]
+      },
+      "RouteClaimsRequirement": {
+        "http///schemas.microsoft.com/ws/2008/06/identity/claims/role": "SuperAdmin"
       }
     }
   ]
