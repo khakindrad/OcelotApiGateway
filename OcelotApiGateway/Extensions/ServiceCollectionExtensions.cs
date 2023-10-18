@@ -56,25 +56,13 @@ namespace OcelotApiGateway.Extensions
                 })
                 .AddJwtBearer(options =>
                 {
+                    options.SaveToken = true;
                     options.Authority = configuration["Authentication:AWSCognito:Authority"];                    
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
 
-                        //ToDo Validate audience should be true
-                        //
-                        // Summary:
-                        //     Gets or sets a boolean to control if the audience will be validated during token
-                        //     validation.
-                        //
-                        // Remarks:
-                        //     Validation of the audience, mitigates forwarding attacks. For example, a site
-                        //     that receives a token, could not replay it to another side. A forwarded token
-                        //     would contain the audience of the original site. This boolean only applies to
-                        //     default audience validation. If Microsoft.IdentityModel.Tokens.TokenValidationParameters.AudienceValidator
-                        //     is set, it will be called regardless of whether this property is true or false.
-                        //     The default is true.
-                        ValidateAudience = false,
+                        ValidateAudience = true,
                         ValidAudience = configuration["Authentication:AWSCognito:ValidAudience"]
                     };
                 });
