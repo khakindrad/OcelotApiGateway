@@ -3,18 +3,18 @@
     "BaseUrl": "https://localhost:7080"
   },
   "Routes": [
-    {
-      "UpstreamPathTemplate": "/gateway/Auth",
-      "UpstreamHttpMethod": [ "Post" ],
-      "DownstreamScheme": "https",
-      "DownstreamPathTemplate": "/api/auth",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 7178
-        }
-      ]
-    },
+    //{
+    //  "UpstreamPathTemplate": "/gateway/Auth",
+    //  "UpstreamHttpMethod": [ "Post" ],
+    //  "DownstreamScheme": "https",
+    //  "DownstreamPathTemplate": "/api/auth",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 7178
+    //    }
+    //  ]
+    //},
     {
       "UpstreamPathTemplate": "/gateway/writers",
       "UpstreamHttpMethod": [ "Get" ],
@@ -27,8 +27,8 @@
         }
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "writers.read", "fullaccess" ]
+        "AuthenticationProviderKey": "Bearer"
+        //"AllowedScopes": [ "writers.read", "fullaccess" ]
       }
     },
     {
@@ -53,7 +53,10 @@
           "Host": "localhost",
           "Port": 7181
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/articles",
@@ -67,8 +70,8 @@
         }
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "articles.read", "fullaccess" ]
+        "AuthenticationProviderKey": "Bearer"
+        //"AllowedScopes": [ "articles.read", "fullaccess" ]
       }
     },
     {
@@ -95,12 +98,12 @@
         }
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": [ "fullaccess" ]
-      },
-      "RouteClaimsRequirement": {
-        "http///schemas.microsoft.com/ws/2008/06/identity/claims/role": "SuperAdmin"
+        "AuthenticationProviderKey": "Bearer"
+        //"AllowedScopes": [ "fullaccess" ]
       }
+      //"RouteClaimsRequirement": {
+      //  "http///schemas.microsoft.com/ws/2008/06/identity/claims/role": "SuperAdmin"
+      //}
     }
   ]
 }

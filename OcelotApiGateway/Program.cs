@@ -1,4 +1,3 @@
-using JwtTokenAuthentication;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using OcelotApiGateway.Extensions;
@@ -18,7 +17,12 @@ builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange
 builder.Services.AddOcelot(builder.Configuration);
 builder.Services.DecorateClaimAuthoriser();
 
-builder.Services.AddJwtAuthentication();
+var authProvider = builder.Configuration["Authentication:Provider"];
+
+if (authProvider is not null)
+{
+    builder.Services.AddAuthentication(builder.Configuration, authProvider);
+}
 
 var app = builder.Build();
 
@@ -28,12 +32,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseDeveloperExceptionPage();
 app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
+if (authProvider is not null)
+{
+    app.UseAuthentication();
+}
+
 app.UseAuthorization();
 
 app.MapControllers();
