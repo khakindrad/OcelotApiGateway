@@ -27,8 +27,9 @@
         }
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
+        "AuthenticationProviderKey": "Bearer",
         //"AllowedScopes": [ "writers.read", "fullaccess" ]
+        "AllowedScopes": []
       }
     },
     {
@@ -72,6 +73,10 @@
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
         //"AllowedScopes": [ "articles.read", "fullaccess" ]
+        //"AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "cognito?_?groups": "SuperAdmin"
       }
     },
     {
@@ -99,11 +104,10 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
-        //"AllowedScopes": [ "fullaccess" ]
+      },
+      "RouteClaimsRequirement": {
+        "cognito?_?groups": "SuperAdmin"
       }
-      //"RouteClaimsRequirement": {
-      //  "http///schemas.microsoft.com/ws/2008/06/identity/claims/role": "SuperAdmin"
-      //}
     }
   ]
 }

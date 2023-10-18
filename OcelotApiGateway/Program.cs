@@ -2,6 +2,7 @@ using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using OcelotApiGateway.Extensions;
 using Serilog;
+using Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

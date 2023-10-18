@@ -19,9 +19,9 @@ namespace OcelotApiGateway.Decorators
             var newRouteClaimsRequirement = new Dictionary<string, string>();
             foreach (var kvp in routeClaimsRequirement)
             {
-                if (kvp.Key.StartsWith("http///"))
+                if (kvp.Key.Contains("?_?"))
                 {
-                    var key = kvp.Key.Replace("http///", "http://");
+                    var key = kvp.Key.Replace("?_?", ":");
                     newRouteClaimsRequirement.Add(key, kvp.Value);
                 }
                 else
