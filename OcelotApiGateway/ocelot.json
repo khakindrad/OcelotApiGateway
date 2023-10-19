@@ -27,9 +27,10 @@
         }
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        //"AllowedScopes": [ "writers.read", "fullaccess" ]
-        "AllowedScopes": []
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "UpstreamHeaderTransform": {
+        "TransformationTest": "TransformationValues"
       }
     },
     {
@@ -54,10 +55,10 @@
           "Host": "localhost",
           "Port": 7181
         }
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
-      }
+      ]//,
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer"
+      //}
     },
     {
       "UpstreamPathTemplate": "/gateway/articles",

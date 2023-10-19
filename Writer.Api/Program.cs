@@ -1,3 +1,5 @@
+using Common.Extensions;
+using Common.Options;
 using Serilog;
 using Writer.Api.Repository;
 
@@ -15,6 +17,10 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 builder.Services.AddScoped<IWriterRepository, WriterRepository>();
 
+var authenticationSettings = builder.Configuration.GetSection("Authentication").Get<AuthenticationSettings>();
+
+builder.Services.AddAuthentication(authenticationSettings);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,6 +33,8 @@ app.UseDeveloperExceptionPage();
 app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication(authenticationSettings);
 
 app.UseAuthorization();
 

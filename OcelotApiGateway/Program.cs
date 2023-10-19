@@ -1,8 +1,9 @@
+using Common.Extensions;
+using Common.Options;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using OcelotApiGateway.Extensions;
 using Serilog;
-using Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,12 +19,9 @@ builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange
 builder.Services.AddOcelot(builder.Configuration);
 builder.Services.DecorateClaimAuthoriser();
 
-var authProvider = builder.Configuration["Authentication:Provider"];
+var authenticationSettings = builder.Configuration.GetSection("Authentication").Get<AuthenticationSettings>();
 
-if (authProvider is not null)
-{
-    builder.Services.AddAuthentication(builder.Configuration, authProvider);
-}
+builder.Services.AddAuthentication(authenticationSettings);
 
 var app = builder.Build();
 
@@ -39,10 +37,7 @@ app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
-if (authProvider is not null)
-{
-    app.UseAuthentication();
-}
+app.UseAuthentication(authenticationSettings);
 
 app.UseAuthorization();
 
