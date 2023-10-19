@@ -78,14 +78,21 @@
         {
           "Host": "localhost",
           "Port": 7157
+        },
+        {
+          "Host": "localhost",
+          "Port": 8500
         }
       ],
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
         "Period": "1m",
         "PeriodTimespan": 60,
-        "Limit": 2
+        "Limit": 200
       }
     },
     {
