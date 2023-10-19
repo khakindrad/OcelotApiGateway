@@ -1,5 +1,6 @@
 using Common.Extensions;
 using Common.Options;
+using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using OcelotApiGateway.Extensions;
@@ -16,7 +17,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
-builder.Services.AddOcelot(builder.Configuration);
+builder.Services.AddOcelot(builder.Configuration)
+    .AddCacheManager(x =>
+    {
+        x.WithDictionaryHandle();
+    });
+
 builder.Services.DecorateClaimAuthoriser();
 
 var authenticationSettings = builder.Configuration.GetSection("Authentication").Get<AuthenticationSettings>();

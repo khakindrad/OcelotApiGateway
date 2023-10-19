@@ -37,6 +37,9 @@
       },
       "UpstreamHeaderTransform": {
         "TransformationTest": "TransformationValues"
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 300
       }
     },
     {
