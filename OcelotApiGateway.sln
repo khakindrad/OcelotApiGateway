@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth.Api", "src\Auth.Api\Au
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "src\Common\Common.csproj", "{B58C1D17-0246-46A6-982D-B6F699041288}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Websocket.Api", "src\Websocket.Api\Websocket.Api.csproj", "{E5973785-C4D9-4B04-A806-F5B9F8E32264}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelogApiGateway.Web", "src\OcelogApiGateway.Web\OcelogApiGateway.Web.csproj", "{FF0A4D03-06F2-4BA2-8C6A-030A0A3A44EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -32,11 +36,21 @@ Global
 		{2E64BCC8-BD31-4567-B665-FD7DE06D8A4E}.Release|x64.ActiveCfg = Release|x64
 		{2E64BCC8-BD31-4567-B665-FD7DE06D8A4E}.Release|x64.Build.0 = Release|x64
 		{DC7FBB96-134A-4DA4-A680-09ADCCC74209}.Debug|x64.ActiveCfg = Debug|x64
+		{DC7FBB96-134A-4DA4-A680-09ADCCC74209}.Debug|x64.Build.0 = Debug|x64
 		{DC7FBB96-134A-4DA4-A680-09ADCCC74209}.Release|x64.ActiveCfg = Release|x64
+		{DC7FBB96-134A-4DA4-A680-09ADCCC74209}.Release|x64.Build.0 = Release|x64
 		{B58C1D17-0246-46A6-982D-B6F699041288}.Debug|x64.ActiveCfg = Debug|x64
 		{B58C1D17-0246-46A6-982D-B6F699041288}.Debug|x64.Build.0 = Debug|x64
 		{B58C1D17-0246-46A6-982D-B6F699041288}.Release|x64.ActiveCfg = Release|x64
 		{B58C1D17-0246-46A6-982D-B6F699041288}.Release|x64.Build.0 = Release|x64
+		{E5973785-C4D9-4B04-A806-F5B9F8E32264}.Debug|x64.ActiveCfg = Debug|x64
+		{E5973785-C4D9-4B04-A806-F5B9F8E32264}.Debug|x64.Build.0 = Debug|x64
+		{E5973785-C4D9-4B04-A806-F5B9F8E32264}.Release|x64.ActiveCfg = Release|x64
+		{E5973785-C4D9-4B04-A806-F5B9F8E32264}.Release|x64.Build.0 = Release|x64
+		{FF0A4D03-06F2-4BA2-8C6A-030A0A3A44EC}.Debug|x64.ActiveCfg = Debug|x64
+		{FF0A4D03-06F2-4BA2-8C6A-030A0A3A44EC}.Debug|x64.Build.0 = Debug|x64
+		{FF0A4D03-06F2-4BA2-8C6A-030A0A3A44EC}.Release|x64.ActiveCfg = Release|x64
+		{FF0A4D03-06F2-4BA2-8C6A-030A0A3A44EC}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

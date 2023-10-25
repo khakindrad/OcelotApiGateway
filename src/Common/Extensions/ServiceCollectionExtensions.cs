@@ -41,6 +41,29 @@ namespace Common.Extensions
                                     ValidIssuer = authenticationSettings.JWT.ValidIssuer,
                                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.JWT.Secret))
                                 };
+                                options.Events = new JwtBearerEvents
+                                {
+                                    OnMessageReceived = context =>
+                                    {
+                                        //if (context.Request.Headers.ContainsKey("sec-websocket-protocol") && context.HttpContext.WebSockets.IsWebSocketRequest)
+                                        //{
+                                        //    var token = context.Request.Headers["sec-websocket-protocol"].ToString();
+                                        //    // token arrives as string = "client, xxxxxxxxxxxxxxxxxxxxx"
+                                        //    context.Token = token.Substring(token.IndexOf(',') + 1).Trim();
+                                        //    context.Request.Headers["sec-websocket-protocol"] = "client";
+                                        //}
+                                        if (context.HttpContext.WebSockets.IsWebSocketRequest)
+                                        {
+                                            // retrieve access token from query string
+                                            var token = context.Request.Query["access_token"].ToString();
+
+                                            // token arrives as string = "client, xxxxxxxxxxxxxxxxxxxxx"
+                                            context.Token = token.Substring(token.IndexOf(',') + 1).Trim();
+                                            context.Request.Headers["sec-websocket-protocol"] = "client";
+                                        }
+                                        return Task.CompletedTask;
+                                    }
+                                };
                             });
                         }
                         break;
@@ -74,6 +97,29 @@ namespace Common.Extensions
 
                                     ValidateAudience = true,
                                     ValidAudience = authenticationSettings.ValidAudience
+                                };
+                                options.Events = new JwtBearerEvents
+                                {
+                                    OnMessageReceived = context =>
+                                    {
+                                        //if (context.Request.Headers.ContainsKey("sec-websocket-protocol") && context.HttpContext.WebSockets.IsWebSocketRequest)
+                                        //{
+                                        //    var token = context.Request.Headers["sec-websocket-protocol"].ToString();
+                                        //    // token arrives as string = "client, xxxxxxxxxxxxxxxxxxxxx"
+                                        //    context.Token = token.Substring(token.IndexOf(',') + 1).Trim();
+                                        //    context.Request.Headers["sec-websocket-protocol"] = "client";
+                                        //}
+                                        if (context.HttpContext.WebSockets.IsWebSocketRequest)
+                                        {
+                                            // retrieve access token from query string
+                                            var token = context.Request.Query["access_token"].ToString();
+
+                                            // token arrives as string = "client, xxxxxxxxxxxxxxxxxxxxx"
+                                            context.Token = token.Substring(token.IndexOf(',') + 1).Trim();
+                                            context.Request.Headers["sec-websocket-protocol"] = "client";
+                                        }
+                                        return Task.CompletedTask;
+                                    }
                                 };
                             });
                         }

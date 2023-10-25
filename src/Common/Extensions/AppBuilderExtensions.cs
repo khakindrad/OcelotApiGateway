@@ -1,4 +1,5 @@
 ﻿using Common.Extensions;
+using Common.Middlewares;
 using Common.Options;
 using Microsoft.AspNetCore.Builder;
 
@@ -22,6 +23,14 @@ namespace Common.Extensions
                         throw new InvalidDataException($"Invalid authentication provider defined in appsettings.json file.");
                 }
             }
+
+            return app;
+        }
+
+        public static IApplicationBuilder UseCustomMiddlewares(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
+            app.UseMiddleware<WebSocketSecurityMiddleware>();
 
             return app;
         }

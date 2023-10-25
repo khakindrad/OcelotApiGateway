@@ -1,6 +1,8 @@
-﻿using Auth.Api.Models;
-using Auth.Api.Services;
+﻿using Auth.Api.Interfaces;
+using Auth.Api.Models.DTOs;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Common.ActionFilters;
 
 namespace Auth.Api.Controllers
 {
@@ -8,19 +10,43 @@ namespace Auth.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IJwtTokenService _jwtTokenService;
+        private readonly IAuthService _authService;
+        private readonly IMapper _mapper;
 
-        public AuthController(IJwtTokenService jwtTokenService)
+        public AuthController(IAuthService authService, IMapper mapper)
         {
-            _jwtTokenService = jwtTokenService;
+            _authService = authService;
+            _mapper = mapper;
         }
 
-        [HttpPost]
-        public IActionResult Login([FromBody] LoginModel user)
+        [HttpPost("Login")]
+        [ValidateModel]
+        public async Task<ActionResult<AuthResponseDto>> LoginAync([FromBody] LoginDto loginDto)
         {
-            var loginResult = _jwtTokenService.GenerateAuthToken(user);
+            var authResponse = await _authService.LoginAsync(loginDto);
 
-            return loginResult is null ? Unauthorized() : Ok(loginResult);
+            if (authResponse is not null)
+            {
+                var authResponseDto = _mapper.Map<AuthResponseDto>(authResponse);
+
+                return authResponseDto;
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPost("Register")]
+        [ValidateModel]
+        public async Task<ActionResult<RegisterResponseDto>> RegisterAync([FromBody] RegisterDto registerDto)
+        {
+            var registerResponse = await _authService.RegisterAsync(registerDto);
+
+            if (registerResponse is not null)
+            {
+                return CreatedAtAction("LoginAync", registerDto);
+            }
+
+            return BadRequest();
         }
     }
 }

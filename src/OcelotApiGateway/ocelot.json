@@ -78,11 +78,11 @@
         {
           "Host": "localhost",
           "Port": 7157
-        },
-        {
-          "Host": "localhost",
-          "Port": 8500
-        }
+        }//,
+        //{
+        //  "Host": "localhost",
+        //  "Port": 8500
+        //}
       ],
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
@@ -124,6 +124,24 @@
       "RouteClaimsRequirement": {
         "cognito?_?groups": "SuperAdmin"
       }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/ws/Websockets",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/ws/Websockets",
+      "DownstreamScheme": "wss",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7280
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }//,
+      //"RouteClaimsRequirement": {
+      //  "cognito?_?groups": "SuperAdmin"
+      //}
     }
   ]
 }
