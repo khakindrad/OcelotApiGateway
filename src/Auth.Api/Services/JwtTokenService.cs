@@ -1,5 +1,4 @@
 ﻿using Auth.Api.Models;
-using JwtTokenAuthentication;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
