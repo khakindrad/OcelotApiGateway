@@ -135,10 +135,10 @@
           "Host": "localhost",
           "Port": 7280
         }
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
-      }//,
+      ]//,
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer"
+      //}//,
       //"RouteClaimsRequirement": {
       //  "cognito?_?groups": "SuperAdmin"
       //}

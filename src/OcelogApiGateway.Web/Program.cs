@@ -1,3 +1,5 @@
+using OcelogApiGateway.Web.Options;
+
 namespace OcelogApiGateway.Web
 {
     public class Program
@@ -8,6 +10,8 @@ namespace OcelogApiGateway.Web
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddOptions<ApiConfigOptions>().BindConfiguration("APIConfiguration").ValidateDataAnnotations().ValidateOnStart();
 
             var app = builder.Build();
 
