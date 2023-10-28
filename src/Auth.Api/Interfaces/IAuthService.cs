@@ -2,11 +2,10 @@
 using Auth.Api.Models.DTOs;
 using FluentResults;
 
-namespace Auth.Api.Interfaces
+namespace Auth.Api.Interfaces;
+
+public interface IAuthService
 {
-    public interface IAuthService
-    {
-        Task<Result<AppUser?>> RegisterAsync(RegisterDto registerDto);
-        Task<Result<AuthResponse?>> LoginAsync(LoginDto loginDto);
-    }
+    Task<Result<AppUser?>> RegisterAsync(RegisterDto registerDto);
+    Task<Result<AuthResponse?>> LoginAsync(LoginDto loginDto);
 }

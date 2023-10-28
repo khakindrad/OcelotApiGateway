@@ -1,7 +1,6 @@
-﻿namespace Websocket.Api.Interfaces
+﻿namespace Websocket.Api.Interfaces;
+
+public interface IMessageProcessor
 {
-    public interface IMessageProcessor
-    {
-        Task ProcessMessage(byte[] bytes, int offset, int length);
-    }
+    Task ProcessMessage(byte[] bytes, int offset, int length);
 }

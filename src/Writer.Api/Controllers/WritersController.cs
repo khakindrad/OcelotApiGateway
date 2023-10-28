@@ -1,55 +1,58 @@
-﻿using Common.Helpers;
+using Common.Extensions;
+using Common.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Writer.Api.Models;
 using Writer.Api.Repository;
 
-namespace Writer.Api.Controllers
+namespace Writer.Api.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+[Authorize]
+public sealed class WritersController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [Authorize]
-    public class WritersController : ControllerBase
+    private readonly IWriterRepository _WriterRepository;
+    private readonly IHttpContextAccessor _ctxAccessor;
+    private readonly ILogger<WritersController> _logger;
+
+    public WritersController(IWriterRepository writerRepository, IHttpContextAccessor ctxAccessor, ILogger<WritersController> logger)
     {
-        private readonly IWriterRepository _WriterRepository;
-        private readonly IHttpContextAccessor _ctxAccessor;
-        private readonly ILogger<WritersController> _logger;
+        _WriterRepository = writerRepository;
+        _ctxAccessor = ctxAccessor;
+        _logger = logger;
+    }
 
-        public WritersController(IWriterRepository WriterRepository, IHttpContextAccessor ctxAccessor, ILogger<WritersController> logger)
+    [HttpGet]
+    public ActionResult<IEnumerable<WriterDto>> Get()
+    {
+        if (_ctxAccessor.HttpContext is not null)
         {
-            _WriterRepository = WriterRepository;
-            _ctxAccessor = ctxAccessor;
-            _logger = logger;
+            var headers = HttpHeadersHelper.ExtractHeaders(_ctxAccessor.HttpContext.Request.Headers, new string[] { "TransformationTest" });
+
+            _logger.LogMessage($"Request Headers : " + string.Join(',', headers));
         }
 
-        [HttpGet]
-        public ActionResult<IEnumerable<WriterDto>> Get()
-        {
-            List<string> headers = HttpHeadersHelper.ExtractHeaders(_ctxAccessor.HttpContext.Request.Headers, new string[] { "TransformationTest" });
+        return Ok(_WriterRepository.GetAll());
+    }
 
-            _logger.LogInformation($"Request Headers : " + string.Join(",", headers));
+    [HttpGet("{id}")]
+    public ActionResult<WriterDto> Get(int id)
+    {
+        var writer = _WriterRepository.GetById(id);
 
-            return Ok(_WriterRepository.GetAll());
-        }
+        if (writer is null)
+            return NotFound();
 
-        [HttpGet("{id}")]
-        public ActionResult<WriterDto> Get(int id)
-        {
-            var Writer = _WriterRepository.GetById(id);
+        return Ok(writer);
+    }
 
-            if (Writer is null)
-                return NotFound();
+    [HttpPost]
+    [Authorize(Policy = "SuperAdminOnly")]
+    public IActionResult Post([FromBody] WriterDto writer)
+    {
+        var result = _WriterRepository.Create(writer);
 
-            return Ok(Writer);
-        }
-
-        [HttpPost]
-        [Authorize(Policy = "SuperAdminOnly")]
-        public IActionResult Post([FromBody] WriterDto writer)
-        {
-            var result = _WriterRepository.Create(writer);
-
-            return Created($"/get/{result.Id}", result);
-        }
+        return Created(new Uri($"/get/{result.Id}"), result);
     }
 }

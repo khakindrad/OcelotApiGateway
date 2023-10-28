@@ -14,36 +14,35 @@ using Ocelot.Request.Middleware;
 using Ocelot.Responder.Middleware;
 using Ocelot.WebSockets;
 
-namespace OcelotApiGateway.Extensions
-{
-    public static class AppBuilderExtensions
-    {
-        public static IApplicationBuilder UseOcelotWebSockets(this IApplicationBuilder appBuilder)
-        {
-            appBuilder.UseWebSockets();
+namespace OcelotApiGateway.Extensions;
 
-            //Override Ocelot Websockets pipeline to support authentication and authorization
-            appBuilder.MapWhen(httpContext => httpContext.WebSockets.IsWebSocketRequest,
-                wenSocketsApp =>
-                {
-                    wenSocketsApp.UseDownstreamContextMiddleware();
-                    wenSocketsApp.UseExceptionHandlerMiddleware();
-                    wenSocketsApp.UseResponderMiddleware();
-                    wenSocketsApp.UseDownstreamRouteFinderMiddleware();
-                    wenSocketsApp.UseMultiplexingMiddleware();
-                    wenSocketsApp.UseHttpHeadersTransformationMiddleware();
-                    wenSocketsApp.UseDownstreamRequestInitialiser();
-                    wenSocketsApp.UseAuthenticationMiddleware();
-                    wenSocketsApp.UseClaimsToClaimsMiddleware();
-                    wenSocketsApp.UseAuthorizationMiddleware();
-                    wenSocketsApp.UseClaimsToHeadersMiddleware();
-                    wenSocketsApp.UseClaimsToQueryStringMiddleware();
-                    wenSocketsApp.UseClaimsToDownstreamPathMiddleware();
-                    wenSocketsApp.UseLoadBalancingMiddleware();
-                    wenSocketsApp.UseDownstreamUrlCreatorMiddleware();
-                    wenSocketsApp.UseWebSocketsProxyMiddleware();
-                });
-            return appBuilder;
-        }
+public static class AppBuilderExtensions
+{
+    public static IApplicationBuilder UseOcelotWebSockets(this IApplicationBuilder appBuilder)
+    {
+        appBuilder.UseWebSockets();
+
+        //Override Ocelot Websockets pipeline to support authentication and authorization
+        appBuilder.MapWhen(httpContext => httpContext.WebSockets.IsWebSocketRequest,
+            wenSocketsApp =>
+            {
+                wenSocketsApp.UseDownstreamContextMiddleware();
+                wenSocketsApp.UseExceptionHandlerMiddleware();
+                wenSocketsApp.UseResponderMiddleware();
+                wenSocketsApp.UseDownstreamRouteFinderMiddleware();
+                wenSocketsApp.UseMultiplexingMiddleware();
+                wenSocketsApp.UseHttpHeadersTransformationMiddleware();
+                wenSocketsApp.UseDownstreamRequestInitialiser();
+                wenSocketsApp.UseAuthenticationMiddleware();
+                wenSocketsApp.UseClaimsToClaimsMiddleware();
+                wenSocketsApp.UseAuthorizationMiddleware();
+                wenSocketsApp.UseClaimsToHeadersMiddleware();
+                wenSocketsApp.UseClaimsToQueryStringMiddleware();
+                wenSocketsApp.UseClaimsToDownstreamPathMiddleware();
+                wenSocketsApp.UseLoadBalancingMiddleware();
+                wenSocketsApp.UseDownstreamUrlCreatorMiddleware();
+                wenSocketsApp.UseWebSocketsProxyMiddleware();
+            });
+        return appBuilder;
     }
 }

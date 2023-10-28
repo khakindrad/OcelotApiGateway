@@ -1,12 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace Auth.Api.Models.DTOs
+namespace Auth.Api.Models.DTOs;
+
+public sealed class LoginDto
 {
-    public class LoginDto
-    {
-        public required string UserName { get; set; }
+    public required string UserName { get; set; }
 
-        [DataType(DataType.Password)]
-        public required string Password { get; set; }
-    }
+    [DataType(DataType.Password)]
+    public required string Password { get; set; }
 }

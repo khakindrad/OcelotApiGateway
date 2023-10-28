@@ -1,4 +1,5 @@
-﻿public class ResultDto<TResponse>
+namespace Common.Dtos;
+public sealed class ResultDto<TResponse>
 {
     public const string Type = "ResultDto";
 

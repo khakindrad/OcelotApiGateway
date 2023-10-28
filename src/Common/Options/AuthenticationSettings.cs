@@ -1,10 +1,9 @@
-﻿namespace Common.Options
+namespace Common.Options;
+
+public sealed class AuthenticationSettings
 {
-    public class AuthenticationSettings
-    {
-        public required AuthProvider Provider { get; set; }
-        public required string ValidAudience { get; set; }
-        public JwtAuthSettings? JWT { get; set; }
-        public AwsCognitoAuthSettings? AWSCognito {  get; set; }        
-    }
+    public required AuthProvider Provider { get; set; }
+    public required string ValidAudience { get; set; }
+    public JwtAuthSettings? JWT { get; set; }
+    public AwsCognitoAuthSettings? AWSCognito { get; set; }
 }

@@ -1,4 +1,6 @@
-namespace Websocket.Api.Extensions;
+using Microsoft.Extensions.Logging;
+
+namespace Common.Extensions;
 
 public static partial class LoggerExtensions
 {

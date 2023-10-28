@@ -1,8 +1,7 @@
-﻿namespace Auth.Api.Models.Domain
+namespace Auth.Api.Models.Domain;
+
+public sealed class AuthResponse
 {
-    public class AuthResponse
-    {
-        public required string Token { get; set; }
-        public required int ExpiresIn { get; set; }
-    }
+    public required string Token { get; set; }
+    public required int ExpiresIn { get; set; }
 }

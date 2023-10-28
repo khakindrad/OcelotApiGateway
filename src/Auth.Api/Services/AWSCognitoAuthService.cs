@@ -1,82 +1,111 @@
-﻿using Amazon;
+using Amazon;
 using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
 using Auth.Api.Interfaces;
 using Auth.Api.Models.Domain;
 using Auth.Api.Models.DTOs;
+using Common.Extensions;
 using Common.Options;
 using FluentResults;
 using Microsoft.Extensions.Options;
 
-namespace Auth.Api.Services
+namespace Auth.Api.Services;
+
+public sealed class AwsCognitoAuthService : IAuthService, IDisposable
 {
-    public class AWSCognitoAuthService : IAuthService
+    private readonly ILogger<AwsCognitoAuthService> _logger;
+    private readonly AwsCognitoAuthSettings? _authSettings;
+    private readonly AmazonCognitoIdentityProviderClient? _cognito;
+
+    public AwsCognitoAuthService(ILogger<AwsCognitoAuthService> logger, IOptions<AuthenticationSettings> authSettings)
     {
-        private readonly ILogger<AWSCognitoAuthService> _logger;
-        private readonly AuthenticationSettings _authSettings;
-        private readonly RegionEndpoint _region = RegionEndpoint.APSouth1;
-        private readonly AmazonCognitoIdentityProviderClient _cognito;
+        ArgumentException.ThrowIfNullOrEmpty(nameof(authSettings));
+        ArgumentException.ThrowIfNullOrEmpty(nameof(authSettings.Value));
+        ArgumentException.ThrowIfNullOrEmpty(nameof(authSettings.Value.AWSCognito));
 
-        public AWSCognitoAuthService(ILogger<AWSCognitoAuthService> logger, IOptions<AuthenticationSettings> authSettings)
+        _logger = logger;
+        _authSettings = authSettings.Value.AWSCognito;
+
+        if (_authSettings is not null)
         {
-            _logger = logger;
-            _authSettings = authSettings.Value;
+            var region = RegionEndpoint.GetBySystemName(_authSettings.Region);
+            _cognito = new AmazonCognitoIdentityProviderClient(region);
+        }
+    }
 
-            _region = RegionEndpoint.GetBySystemName(_authSettings.AWSCognito.Region);
-            _cognito = new AmazonCognitoIdentityProviderClient(_region);
+    public async Task<Result<AuthResponse?>> LoginAsync(LoginDto loginDto)
+    {
+        if (_authSettings is null)
+        {
+            return Result.Fail("_authSettings is null");
         }
 
-        public async Task<Result<AuthResponse?>> LoginAsync(LoginDto loginDto)
+        if (_cognito is null)
         {
-            var request = new AdminInitiateAuthRequest
-            {
-                UserPoolId = _authSettings.AWSCognito.UserPoolId,
-                ClientId = _authSettings.AWSCognito.ClientId,
-                AuthFlow = new AuthFlowType(_authSettings.AWSCognito.AuthFlowType)
-            };
-
-            request.AuthParameters.Add("USERNAME", loginDto.UserName);
-            request.AuthParameters.Add("PASSWORD", loginDto.Password);
-
-            var response = await _cognito.AdminInitiateAuthAsync(request);
-
-            AuthResponse authResponse = new()
-            {
-                Token = response.AuthenticationResult.IdToken,
-                ExpiresIn = response.AuthenticationResult.ExpiresIn,
-            };
-
-            return authResponse;
+            return Result.Fail("_cognito is null");
         }
 
-        public async Task<Result<AppUser?>> RegisterAsync(RegisterDto registerDto)
+        var request = new AdminInitiateAuthRequest
         {
-            var request = new SignUpRequest
-            {
-                ClientId = _authSettings.AWSCognito.ClientId,
-                Password = registerDto.Password,
-                Username = registerDto.UserName
-            };
+            UserPoolId = _authSettings.UserPoolId,
+            ClientId = _authSettings.ClientId,
+            AuthFlow = new AuthFlowType(_authSettings.AuthFlowType)
+        };
 
-            var emailAttribute = new AttributeType
-            {
-                Name = "email",
-                Value = registerDto.Email
-            };
-            request.UserAttributes.Add(emailAttribute);
+        request.AuthParameters.Add("USERNAME", loginDto.UserName);
+        request.AuthParameters.Add("PASSWORD", loginDto.Password);
 
-            var response = await _cognito.SignUpAsync(request);
+        var response = await _cognito.AdminInitiateAuthAsync(request).ConfigureAwait(false);
 
-            _logger.LogInformation($"Added user {registerDto.UserName} {response}");
+        return new AuthResponse()
+        {
+            Token = response.AuthenticationResult.IdToken,
+            ExpiresIn = response.AuthenticationResult.ExpiresIn,
+        };
+    }
 
-            AppUser appUser = new()
-            {
-                UserName = registerDto.UserName,
-                Email = registerDto.Email,
-                Password = registerDto.Password
-            };
-
-            return appUser;
+    public async Task<Result<AppUser?>> RegisterAsync(RegisterDto registerDto)
+    {
+        if (_authSettings is null)
+        {
+            return Result.Fail("_authSettings is null");
         }
+
+        if (_cognito is null)
+        {
+            return Result.Fail("_cognito is null");
+        }
+
+        var request = new SignUpRequest
+        {
+            ClientId = _authSettings.ClientId,
+            Password = registerDto.Password,
+            Username = registerDto.UserName
+        };
+
+        var emailAttribute = new AttributeType
+        {
+            Name = "email",
+            Value = registerDto.Email
+        };
+        request.UserAttributes.Add(emailAttribute);
+
+        var response = await _cognito.SignUpAsync(request).ConfigureAwait(false);
+
+        _logger.LogMessage(LogLevel.Debug, $"Added user {registerDto.UserName} {response}");
+
+        return new AppUser()
+        {
+            UserName = registerDto.UserName,
+            Email = registerDto.Email,
+            Password = registerDto.Password,
+            Role = "User",
+            Scopes = new string[] { "viewonly" }
+        };
+    }
+
+    public void Dispose()
+    {
+        _cognito?.Dispose();
     }
 }

@@ -1,27 +1,26 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
+using System.Collections.ObjectModel;
+using Microsoft.AspNetCore.Http;
 
-namespace Common.Helpers
+namespace Common.Helpers;
+
+public static class HttpHeadersHelper
 {
-    public class HttpHeadersHelper
+    public static ReadOnlyCollection<string> ExtractHeaders(IHeaderDictionary headers, string[]? headerKeys)
     {
-        public static List<string> ExtractHeaders(IHeaderDictionary headers, string[]? headerKeys)
+        List<string> headerValues = new();
+
+        if (headerKeys is not null && headerKeys.Length > 0)
         {
-            List<string> headerValues = new();
-
-            if (headerKeys is not null && headerKeys.Length > 0)
+            foreach (var headerKey in headerKeys)
             {
-                foreach (var headerKey in headerKeys)
-                {
-                    StringValues headerValue = headers.FirstOrDefault(header => header.Key == headerKey).Value;
+                var headerValue = headers.FirstOrDefault(header => string.Equals(header.Key, headerKey, StringComparison.Ordinal)).Value;
 
-                    string result = $"{headerKey}:{headerValue}";
+                var result = $"{headerKey}:{headerValue}";
 
-                    headerValues.Add(result);
-                }
+                headerValues.Add(result);
             }
-
-            return headerValues;
         }
+
+        return headerValues.AsReadOnly();
     }
 }

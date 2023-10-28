@@ -1,7 +1,6 @@
-﻿namespace Websocket.Api.Interfaces
+﻿namespace Websocket.Api.Interfaces;
+
+public interface IHandlerService
 {
-    public interface IHandlerService
-    {
-        Task<bool> SendMessage(byte[] bytes, int offset, int length);
-    }
+    Task<bool> SendMessage(byte[] bytes, int offset, int length);
 }

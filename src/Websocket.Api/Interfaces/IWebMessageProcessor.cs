@@ -1,6 +1,5 @@
-﻿namespace Websocket.Api.Interfaces
+﻿namespace Websocket.Api.Interfaces;
+
+public interface IWebMessageProcessor : IMessageProcessor
 {
-    public interface IWebMessageProcessor : IMessageProcessor
-    {
-    }
 }

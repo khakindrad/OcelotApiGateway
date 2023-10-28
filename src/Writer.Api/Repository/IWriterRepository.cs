@@ -1,11 +1,10 @@
-﻿using Writer.Api.Models;
+using Writer.Api.Models;
 
-namespace Writer.Api.Repository
+namespace Writer.Api.Repository;
+
+public interface IWriterRepository
 {
-    public interface IWriterRepository
-    {
-        List<WriterDto> GetAll();
-        WriterDto? GetById(int id);
-        WriterDto Create(WriterDto writer);
-    }
+    IReadOnlyCollection<WriterDto> GetAll();
+    WriterDto? GetById(int id);
+    WriterDto Create(WriterDto writer);
 }

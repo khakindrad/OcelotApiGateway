@@ -1,6 +1,5 @@
-﻿namespace Websocket.Api.Interfaces
+﻿namespace Websocket.Api.Interfaces;
+
+public interface IServerHandlerService : IHandlerService
 {
-    public interface IServerHandlerService : IHandlerService
-    {
-    }
 }

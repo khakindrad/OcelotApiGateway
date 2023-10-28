@@ -1,7 +1,6 @@
-﻿namespace Websocket.Api.Interfaces
+﻿namespace Websocket.Api.Interfaces;
+
+public interface IWebHandlerService : IHandlerService
 {
-    public interface IWebHandlerService : IHandlerService
-    {
-        public Task ClientConnected(HttpContext context);
-    }
+    public Task ClientConnected(HttpContext context);
 }

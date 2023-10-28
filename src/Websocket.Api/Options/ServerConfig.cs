@@ -1,20 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using Websocket.Api.Common;
 
-namespace Websocket.Api.Options
+namespace Websocket.Api.Options;
+
+public sealed class ServerConfig
 {
-    public class ServerConfig
-    {
-        public const string Name = "ServerConfig";
+    public const string Name = "ServerConfig";
 
-        [Required]
-        [EnumDataType(typeof(ServerType))]
-        public ServerType ServerType { get; set; }
+    [Required]
+    [EnumDataType(typeof(ServerType))]
+    public required ServerType ServerType { get; set; }
 
-        [Required]
-        public string IPAddress { get; set; }
-        
-        [Required]
-        public int Port { get; set; }
-    }
+    [Required]
+    public required string IPAddress { get; set; }
+
+    [Required]
+    public required int Port { get; set; }
 }

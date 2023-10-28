@@ -1,52 +1,51 @@
-﻿using Auth.Api.Interfaces;
+using Auth.Api.Interfaces;
 using Auth.Api.Models.DTOs;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Common.ActionFilters;
 
-namespace Auth.Api.Controllers
+namespace Auth.Api.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public sealed class AuthController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuthController : ControllerBase
+    private readonly IAuthService _authService;
+    private readonly IMapper _mapper;
+
+    public AuthController(IAuthService authService, IMapper mapper)
     {
-        private readonly IAuthService _authService;
-        private readonly IMapper _mapper;
+        _authService = authService;
+        _mapper = mapper;
+    }
 
-        public AuthController(IAuthService authService, IMapper mapper)
+    [HttpPost("Login")]
+    [ValidateModel]
+    public async Task<ActionResult<AuthResponseDto>> LoginAync([FromBody] LoginDto loginDto)
+    {
+        var authResponse = await _authService.LoginAsync(loginDto).ConfigureAwait(false);
+
+        if (authResponse is not null)
         {
-            _authService = authService;
-            _mapper = mapper;
+            var authResponseDto = _mapper.Map<AuthResponseDto>(authResponse);
+
+            return authResponseDto;
         }
 
-        [HttpPost("Login")]
-        [ValidateModel]
-        public async Task<ActionResult<AuthResponseDto>> LoginAync([FromBody] LoginDto loginDto)
+        return BadRequest();
+    }
+
+    [HttpPost("Register")]
+    [ValidateModel]
+    public async Task<ActionResult<RegisterResponseDto>> RegisterAync([FromBody] RegisterDto registerDto)
+    {
+        var registerResponse = await _authService.RegisterAsync(registerDto).ConfigureAwait(false);
+
+        if (registerResponse is not null)
         {
-            var authResponse = await _authService.LoginAsync(loginDto);
-
-            if (authResponse is not null)
-            {
-                var authResponseDto = _mapper.Map<AuthResponseDto>(authResponse);
-
-                return authResponseDto;
-            }
-
-            return BadRequest();
+            return CreatedAtAction("LoginAync", registerDto);
         }
 
-        [HttpPost("Register")]
-        [ValidateModel]
-        public async Task<ActionResult<RegisterResponseDto>> RegisterAync([FromBody] RegisterDto registerDto)
-        {
-            var registerResponse = await _authService.RegisterAsync(registerDto);
-
-            if (registerResponse is not null)
-            {
-                return CreatedAtAction("LoginAync", registerDto);
-            }
-
-            return BadRequest();
-        }
+        return BadRequest();
     }
 }

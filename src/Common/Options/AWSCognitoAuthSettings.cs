@@ -1,11 +1,10 @@
-﻿namespace Common.Options
+namespace Common.Options;
+
+public sealed class AwsCognitoAuthSettings
 {
-    public class AwsCognitoAuthSettings
-    {
-        public required string Authority { get; set; }
-        public string Region { get; set; }
-        public string UserPoolId { get; set; }
-        public string ClientId { get; set; }        
-        public string AuthFlowType { get; set; }
-    }
+    public required string Authority { get; set; }
+    public required string Region { get; set; }
+    public required string UserPoolId { get; set; }
+    public required string ClientId { get; set; }
+    public required string AuthFlowType { get; set; }
 }

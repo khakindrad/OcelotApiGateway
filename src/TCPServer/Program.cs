@@ -1,58 +1,64 @@
-﻿using System.Net;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
-namespace TCPServer
+namespace TCPServer;
+
+internal static class Program
 {
-    internal class Program
+    private static async Task Main()
     {
-        static void Main(string[] args)
+#pragma warning disable CA1031 // Do not catch general exception types
+        try
         {
-            try
-            {
-                StartTCPServer();
+            await StartTCPServer().ConfigureAwait(false);
 
-                Console.ReadLine();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+            Console.ReadLine();
         }
-
-        private async static Task StartTCPServer()
+        catch (Exception ex)
         {
-            Console.WriteLine("Starting TCP Server.");
+            Console.WriteLine(ex);
+        }
+#pragma warning restore CA1031 // Do not catch general exception types
+    }
 
-            //IPHostEntry ipHostInfo = await Dns.GetHostEntryAsync("192.168.29.88");
-            //IPAddress ipAddress = ipHostInfo.AddressList[0];
+    private static async Task StartTCPServer()
+    {
+        Console.WriteLine($"Starting TCP Server application at {DateTime.UtcNow}");
 
-            IPEndPoint ipEndPoint = new(IPAddress.Parse("192.168.29.88"), 9693);
+        //IPHostEntry ipHostInfo = await Dns.GetHostEntryAsync("192.168.29.88");
+        //IPAddress ipAddress = ipHostInfo.AddressList[0];
 
-            using Socket listener = new(ipEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+        IPEndPoint ipEndPoint = new(IPAddress.Parse("192.168.29.88"), 9693);
 
-            listener.Bind(ipEndPoint);
-            listener.Listen(100);
+        using Socket listener = new(ipEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
-            Console.WriteLine($"Started TCP Server at {ipEndPoint}.");
+        listener.Bind(ipEndPoint);
+        listener.Listen(100);
 
-            var handler = await listener.AcceptAsync();
-            
-            Console.WriteLine($"Client connected from {handler.RemoteEndPoint}");
+        Console.WriteLine($"Started TCP Server at {ipEndPoint}.");
 
-            while (true)
+        var handler = await listener.AcceptAsync().ConfigureAwait(false);
+
+        Console.WriteLine($"Client connected from {handler.RemoteEndPoint}");
+
+        while (true)
+        {
+            // Receive message.
+            var buffer = new byte[1_024];
+            var received = await handler.ReceiveAsync(buffer, SocketFlags.None).ConfigureAwait(false);
+
+            var response = Encoding.UTF8.GetString(buffer, 0, received);
+
+            Console.WriteLine($"Msg Received: {response}");
+
+            var echoBytes = Encoding.UTF8.GetBytes($"Eco Back {response}");
+
+            var result = await handler.SendAsync(echoBytes, SocketFlags.None).ConfigureAwait(false);
+
+            if (result == 0)
             {
-                // Receive message.
-                var buffer = new byte[1_024];
-                var received = await handler.ReceiveAsync(buffer, SocketFlags.None);
-
-                var response = Encoding.UTF8.GetString(buffer, 0, received);
-
-                Console.WriteLine($"Msg Received: {response}");
-
-                var echoBytes = Encoding.UTF8.GetBytes($"Eco Back {response}");
-
-                await handler.SendAsync(echoBytes, 0);
+                break;
             }
         }
     }
