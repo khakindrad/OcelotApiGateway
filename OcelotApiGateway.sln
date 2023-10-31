@@ -17,7 +17,24 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Websocket.Api", "src\Websoc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelogApiGateway.Web", "src\OcelogApiGateway.Web\OcelogApiGateway.Web.csproj", "{FF0A4D03-06F2-4BA2-8C6A-030A0A3A44EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCPServer", "src\TCPServer\TCPServer.csproj", "{B6F67722-6C7D-42A8-B197-353DB95DF60A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TCPServer", "src\TCPServer\TCPServer.csproj", "{B6F67722-6C7D-42A8-B197-353DB95DF60A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7E650023-EBAE-488C-A227-88759F147DAE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{55380D48-EF6B-4DE6-AB1F-CD3D42DBF29D}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		AssemblyInfo.cs = AssemblyInfo.cs
+		BannedSymbols.txt = BannedSymbols.txt
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+		global.json = global.json
+		nuget.config = nuget.config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{627EF2AF-36DA-422C-BD4E-8FF254FCB2C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +76,16 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F20FECA6-1937-4481-A1EF-C3EDD1B2EA16} = {7E650023-EBAE-488C-A227-88759F147DAE}
+		{DF756903-5E9C-4170-BF0A-1B2342D07256} = {7E650023-EBAE-488C-A227-88759F147DAE}
+		{2E64BCC8-BD31-4567-B665-FD7DE06D8A4E} = {7E650023-EBAE-488C-A227-88759F147DAE}
+		{DC7FBB96-134A-4DA4-A680-09ADCCC74209} = {7E650023-EBAE-488C-A227-88759F147DAE}
+		{B58C1D17-0246-46A6-982D-B6F699041288} = {7E650023-EBAE-488C-A227-88759F147DAE}
+		{E5973785-C4D9-4B04-A806-F5B9F8E32264} = {7E650023-EBAE-488C-A227-88759F147DAE}
+		{FF0A4D03-06F2-4BA2-8C6A-030A0A3A44EC} = {7E650023-EBAE-488C-A227-88759F147DAE}
+		{B6F67722-6C7D-42A8-B197-353DB95DF60A} = {7E650023-EBAE-488C-A227-88759F147DAE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A1BA875B-227E-4FBD-9177-121AF742722F}

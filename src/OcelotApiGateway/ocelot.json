@@ -128,7 +128,7 @@
     {
       "UpstreamPathTemplate": "/gateway/ws/Websockets",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/ws/Websockets",
+      "DownstreamPathTemplate": "/ws",
       "DownstreamScheme": "wss",
       "DownstreamHostAndPorts": [
         {
